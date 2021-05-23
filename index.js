@@ -80,13 +80,6 @@ class FroniusPV {
 
 	    return [informationService, this.service]
     }
-
-	
-	  setInterval(async () => {
-      await this.scheduledUpdate();
-    }, this.pollInterval * 1000);
-	
-	
 	
     async getCurrentAmbientLightLevelHandler (callback) {
 		let getValue = await getAccessoryValue(this.ip, this.inverter_data)
