@@ -82,7 +82,7 @@ class FroniusPV {
     }
 	
     getCurrentAmbientLightLevelHandler (callback) {
-		let getValue = await getAccessoryValue(this.ip, this.inverter_data)
+		let getValue = getAccessoryValue(this.ip, this.inverter_data)
 
 		this.log(`calling getCurrentAmbientLightLevelcHandler`, getValue)
 
