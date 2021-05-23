@@ -70,22 +70,24 @@ class FroniusPV {
         .setCharacteristic(Characteristic.Model, this.model)
         .setCharacteristic(Characteristic.SerialNumber, this.serial)
 
-	setInterval(async () => {
+	
         this.service.getCharacteristic(Characteristic.CurrentAmbientLightLevel)
 		  .on('get', this.getCurrentAmbientLightLevelHandler.bind(this))
 		  .setProps({
 			minValue: this.minLux
 		  });
-        }, 5 * 1000);
+        
 
 	    return [informationService, this.service]
     }
 	
    async getCurrentAmbientLightLevelHandler (callback) {
-		let getValue = await getAccessoryValue(this.ip, this.inverter_data)
+	   setInterval(async () => {	
+	   let getValue = await getAccessoryValue(this.ip, this.inverter_data)
 
 		this.log(`calling getCurrentAmbientLightLevelcHandler`, getValue)
 
 	    callback(null, getValue)
+            }, 5 * 1000);
    }
 }
