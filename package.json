@@ -7,7 +7,9 @@
     "type": "git",
     "url": "git://github.com/thomasmeyer1970/homebridge-fronius"
   },
-  "dependencies": "axios": "^0.21.1"
+  "dependencies": {
+    "axios": "^0.21.1"
+  },
   "devDependencies": {},
   "keywords": [
     "homebridge-plugin"
