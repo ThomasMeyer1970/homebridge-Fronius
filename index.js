@@ -1,3 +1,6 @@
+const axios = require('axios');
+const setupCache = require('axios-cache-adapter').setupCache;
+
 var Service, Characteristic;
 
 const DEF_MIN_LUX = 0,
@@ -12,10 +15,22 @@ module.exports = function(homebridge) {
     homebridge.registerAccessory(PLUGIN_NAME, ACCESSORY_NAME, FroniusPV);
 }
 
+/**
+ * Setup Cache For Axios to prevent additional requests
+ */
+const cache = setupCache({
+  maxAge: 0 //in ms
+})
+
+const api = axios.create({
+  adapter: cache.adapter,
+  timeout: 0
+})
+
 
 const getInverterData = async(inverterIp) => {
 	try {
-	    return await get('http://'+inverterIp+'/solar_api/v1/GetPowerFlowRealtimeData.fcgi')
+	    return await api.get('http://'+inverterIp+'/solar_api/v1/GetPowerFlowRealtimeData.fcgi')
 	} catch (error) {
 	    console.error(error);
 	    return null;
@@ -50,8 +65,8 @@ class FroniusPV {
 
     	this.name = config["name"];
     	this.manufacturer = config["manufacturer"] || "Fronius";
-	    this.model = config["model"] || "PV";
-	    this.serial = config["serial"] || "4568945";
+	    this.model = config["model"] || "Inverter";
+	    this.serial = config["serial"] || "4567";
 	    this.ip = config["ip"];
 	    this.inverter_data = config["inverter_data"];
 	    this.minLux = config["min_lux"] || DEF_MIN_LUX;
