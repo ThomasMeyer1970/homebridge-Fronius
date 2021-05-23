@@ -59,7 +59,7 @@ const getAccessoryValue = async (inverterIp, inverterDataValue) => {
 	}
 }
 
-class FroniusInverter {
+class FroniusPV {
     constructor(log, config) {
     	this.log = log
     	this.config = config
