@@ -4,36 +4,25 @@ const DEF_MIN_LUX = 0,
       DEF_MAX_LUX = 10000;
 
 const PLUGIN_NAME   = 'homebridge-fronius';
-const ACCESSORY_NAME = 'FroniusSymo';
+const ACCESSORY_NAME = 'FroniusPV';
 
 module.exports = function(homebridge) {
     Service = homebridge.hap.Service;
     Characteristic = homebridge.hap.Characteristic;
-    homebridge.registerAccessory(PLUGIN_NAME, ACCESSORY_NAME, FroniusSymo);
+    homebridge.registerAccessory(PLUGIN_NAME, ACCESSORY_NAME, FroniusPV);
 }
 
 
-/**
- * Main API request with all data
- *
- * @param {inverterIp} the IP of the inver to be queried
- */
 const getInverterData = async(inverterIp) => {
 	try {
-	    return await api.get('http://'+inverterIp+'/solar_api/v1/GetPowerFlowRealtimeData.fcgi')
+	    return await get('http://'+inverterIp+'/solar_api/v1/GetPowerFlowRealtimeData.fcgi')
 	} catch (error) {
 	    console.error(error);
 	    return null;
 	}
 }
 
-/**
- * Gets and returns the accessory's value in the correct format.
- *
- * @param {inverterIp} the IP of the inver to be queried by getInverterData
- * @param {inverterDataValue} the JSON key queried with the return value
- * @return {bool} the value for the accessory
- */
+
 const getAccessoryValue = async (inverterIp, inverterDataValue) => {
 
 	// To Do: Need to handle if no connection
@@ -52,7 +41,7 @@ const getAccessoryValue = async (inverterIp, inverterDataValue) => {
 	}
 }
 
-class FroniusSymo {
+class FroniusPV {
     constructor(log, config) {
     	this.log = log
     	this.config = config
@@ -62,7 +51,7 @@ class FroniusSymo {
     	this.name = config["name"];
     	this.manufacturer = config["manufacturer"] || "Fronius";
 	    this.model = config["model"] || "PV";
-	    this.serial = config["serial"] || "fronius-inverter-1";
+	    this.serial = config["serial"] || "4568945";
 	    this.ip = config["ip"];
 	    this.inverter_data = config["inverter_data"];
 	    this.minLux = config["min_lux"] || DEF_MIN_LUX;
