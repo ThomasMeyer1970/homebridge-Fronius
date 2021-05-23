@@ -1,16 +1,13 @@
 {
   "name": "homebridge-fronius",
-  "version": "0.0.9",
+  "version": "0.1.1",
   "description": "A Homebridge plugin to pull Fronius solar inverter data into HomeKit as a light sensor accessory. Based on homebridge-fronius-inverter by Stog",
   "author": "Thomas Meyer",
   "repository": {
     "type": "git",
     "url": "git://github.com/thomasmeyer1970/homebridge-fronius"
   },
-   "dependencies": {
-    "axios": "^0.21.1",
-    "axios-cache-adapter": "^2.7.3"
-  },
+  "dependencies": "axios": "^0.21.1"
   "devDependencies": {},
   "keywords": [
     "homebridge-plugin"
