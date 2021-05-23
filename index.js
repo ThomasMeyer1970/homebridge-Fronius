@@ -1,5 +1,4 @@
 const axios = require('axios');
-const setupCache = require('axios-cache-adapter').setupCache;
 
 var Service, Characteristic;
 
@@ -15,17 +14,6 @@ module.exports = function(homebridge) {
     homebridge.registerAccessory(PLUGIN_NAME, ACCESSORY_NAME, FroniusPV);
 }
 
-/**
- * Setup Cache For Axios to prevent additional requests
- */
-const cache = setupCache({
-  maxAge: 1 * 1000 //in ms
-})
-
-const api = axios.create({
-  adapter: cache.adapter,
-  timeout: 2000
-})
 
 /**
  * Main API request with all data
@@ -34,7 +22,7 @@ const api = axios.create({
  */
 const getInverterData = async(inverterIp) => {
 	try {
-	    return await api.get('http://'+inverterIp+'/solar_api/v1/GetPowerFlowRealtimeData.fcgi')
+	    return await axios.get('http://'+inverterIp+'/solar_api/v1/GetPowerFlowRealtimeData.fcgi')
 	} catch (error) {
 	    console.error(error);
 	    return null;
