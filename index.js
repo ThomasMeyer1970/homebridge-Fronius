@@ -1,5 +1,4 @@
 const axios = require('axios');
-const setupCache = require('axios-cache-adapter').setupCache;
 
 var Service, Characteristic;
 
@@ -14,18 +13,6 @@ module.exports = function(homebridge) {
     Characteristic = homebridge.hap.Characteristic;
     homebridge.registerAccessory(PLUGIN_NAME, ACCESSORY_NAME, FroniusPV);
 }
-
-/**
- * Setup Cache For Axios to prevent additional requests
- */
-const cache = setupCache({
-  maxAge: 0 //in ms
-})
-
-const api = axios.create({
-  adapter: cache.adapter,
-  timeout: 0
-})
 
 
 const getInverterData = async(inverterIp) => {
