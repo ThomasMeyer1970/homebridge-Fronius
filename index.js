@@ -17,7 +17,7 @@ module.exports = function(homebridge) {
 
 const getInverterData = async(inverterIp) => {
 	try {
-	    return await api.get('http://'+inverterIp+'/solar_api/v1/GetPowerFlowRealtimeData.fcgi')
+	    return await get('http://'+inverterIp+'/solar_api/v1/GetPowerFlowRealtimeData.fcgi')
 	} catch (error) {
 	    console.error(error);
 	    return null;
