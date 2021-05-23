@@ -1,11 +1,12 @@
 const axios = require('axios');
+const setupCache = require('axios-cache-adapter').setupCache;
 
 var Service, Characteristic;
 
 const DEF_MIN_LUX = 0,
       DEF_MAX_LUX = 10000;
 
-const PLUGIN_NAME   = 'homebridge-fronius';
+const PLUGIN_NAME   = 'homebridge-fronius-inverter';
 const ACCESSORY_NAME = 'FroniusPV';
 
 module.exports = function(homebridge) {
@@ -14,10 +15,26 @@ module.exports = function(homebridge) {
     homebridge.registerAccessory(PLUGIN_NAME, ACCESSORY_NAME, FroniusPV);
 }
 
+/**
+ * Setup Cache For Axios to prevent additional requests
+ */
+const cache = setupCache({
+  maxAge: 1 * 1000 //in ms
+})
 
+const api = axios.create({
+  adapter: cache.adapter,
+  timeout: 2000
+})
+
+/**
+ * Main API request with all data
+ *
+ * @param {inverterIp} the IP of the inver to be queried
+ */
 const getInverterData = async(inverterIp) => {
 	try {
-	    return await get('http://'+inverterIp+'/solar_api/v1/GetPowerFlowRealtimeData.fcgi')
+	    return await api.get('http://'+inverterIp+'/solar_api/v1/GetPowerFlowRealtimeData.fcgi')
 	} catch (error) {
 	    console.error(error);
 	    return null;
@@ -27,7 +44,6 @@ const getInverterData = async(inverterIp) => {
 
 const getAccessoryValue = async (inverterIp, inverterDataValue) => {
 
-	// To Do: Need to handle if no connection
 	const inverterData = await getInverterData(inverterIp)
 
 	if(inverterData) {
@@ -43,7 +59,7 @@ const getAccessoryValue = async (inverterIp, inverterDataValue) => {
 	}
 }
 
-class FroniusPV {
+class FroniusInverter {
     constructor(log, config) {
     	this.log = log
     	this.config = config
@@ -53,7 +69,7 @@ class FroniusPV {
     	this.name = config["name"];
     	this.manufacturer = config["manufacturer"] || "Fronius";
 	    this.model = config["model"] || "Inverter";
-	    this.serial = config["serial"] || "4567";
+	    this.serial = config["serial"] || "8945";
 	    this.ip = config["ip"];
 	    this.inverter_data = config["inverter_data"];
 	    this.minLux = config["min_lux"] || DEF_MIN_LUX;
