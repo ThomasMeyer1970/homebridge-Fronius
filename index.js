@@ -71,7 +71,7 @@ class FroniusPV {
         .setCharacteristic(Characteristic.SerialNumber, this.serial)
 
 	setInterval(async () => {
-        await this.service.getCharacteristic(Characteristic.CurrentAmbientLightLevel)
+        this.service.getCharacteristic(Characteristic.CurrentAmbientLightLevel)
 		  .on('get', this.getCurrentAmbientLightLevelHandler.bind(this))
 		  .setProps({
 			minValue: this.minLux
