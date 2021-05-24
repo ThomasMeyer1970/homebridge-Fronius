@@ -5,7 +5,7 @@ var Service, Characteristic;
 const DEF_MIN_LUX = 0,
       DEF_MAX_LUX = 10000;
 
-const PLUGIN_NAME   = 'homebridge-fronius-inverter';
+const PLUGIN_NAME   = 'homebridge-fronius';
 const ACCESSORY_NAME = 'FroniusPV';
 
 module.exports = function(homebridge) {
