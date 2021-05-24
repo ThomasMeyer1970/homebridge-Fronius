@@ -1,6 +1,6 @@
 const axios = require('axios');
 
-var Service, Characteristic;
+var Service, getValue, Characteristic;
 
 const DEF_MIN_LUX = 0,
       DEF_MAX_LUX = 10000;
@@ -81,13 +81,14 @@ class FroniusPV {
 	    return [informationService, this.service]
     }
 	
-   async getCurrentAmbientLightLevelHandler (callback) {
-	   setInterval(async () => {	
-	   let getValue = await getAccessoryValue(this.ip, this.inverter_data)
+   async getCurrentAmbientLightLevelHandler (callback)
+	{
+	   setInterval(
+		   {	
+	           getValue = await getAccessoryValue(this.ip, this.inverter_data)
+                   this.log(`calling getCurrentAmbientLightLevelcHandler`, getValue)
 
-		this.log(`calling getCurrentAmbientLightLevelcHandler`, getValue)
-
-	    callback(null, getValue)
-            }, 5 * 1000);
-   }
+	           callback(null, getValue)
+                   }, 5 * 1000);
+        }
 }
