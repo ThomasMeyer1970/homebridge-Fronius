@@ -86,7 +86,6 @@ class FroniusPV {
 	   setInterval(
 		   {	
 	           getValue = await getAccessoryValue(this.ip, this.inverter_data)
-                   this.log(`calling getCurrentAmbientLightLevelcHandler`, getValue)
 
 	           callback(null, getValue)
                    }, 5 * 1000);
