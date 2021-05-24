@@ -1,6 +1,6 @@
 const axios = require('axios');
 
-var Service, getValue, Characteristic;
+var Service, Characteristic;
 
 const DEF_MIN_LUX = 0,
       DEF_MAX_LUX = 10000;
@@ -70,24 +70,20 @@ class FroniusPV {
         .setCharacteristic(Characteristic.Model, this.model)
         .setCharacteristic(Characteristic.SerialNumber, this.serial)
 
-	
         this.service.getCharacteristic(Characteristic.CurrentAmbientLightLevel)
 		  .on('get', this.getCurrentAmbientLightLevelHandler.bind(this))
 		  .setProps({
 			minValue: this.minLux
 		  });
-        
 
 	    return [informationService, this.service]
     }
-	
-   async getCurrentAmbientLightLevelHandler (callback)
-	{
-	   setInterval(
-		   {	
-	           getValue = await getAccessoryValue(this.ip, this.inverter_data)
 
-	           callback(null, getValue)
-                   }, 5 * 1000);
-        }
+    async getCurrentAmbientLightLevelHandler (callback) {
+		let getValue = await getAccessoryValue(this.ip, this.inverter_data)
+
+		this.log(`calling getCurrentAmbientLightLevelcHandler`, getValue)
+
+	    callback(null, getValue)
+	}
 }
