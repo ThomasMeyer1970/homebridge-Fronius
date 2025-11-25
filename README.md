@@ -1,3 +1,7 @@
+This plugin is no longer developed - please use https://github.com/longzheng/homebridge-fronius-inverter-lights#readme
+
+
+
 # homebridge-Fronius
 
 Fronius API ReadOut
